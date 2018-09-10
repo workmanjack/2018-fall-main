@@ -9,46 +9,44 @@
 
 # Part A
 
-info_a1: 0.0
+info_a1: -0.6780719051126379
 
-info_a2: 0.0
-info_a2_speculation: Because!
+info_a2: 4.321928094887363
+info_a2_speculation: This kind of metric might be useful for entity identification. If two words have a very high probability of occuring next to one another and they are both proper nouns, then perhaps there is a higher chance of it being a two-word entity such as Washington Post. It might also be useful for recognizing idioms or common phrases.
 
 # Part B
 
-info_b1_1_128msg_num_bits: 0.0
-info_b1_2_128msg_entropy: 0.0
-info_b1_3_1024msg_num_bits: 0.0
+info_b1_1_128msg_num_bits: 7
+info_b1_2_128msg_entropy: 7
+info_b1_3_1024msg_num_bits: 10
 
 info_b2:
-- First sentence
 - Second sentence
 # (keep the correct answer)
 
 info_b3:
 - N(0, 1)
-- N(7, 0.5)
 # (keep the correct answer)
 
-info_c1: 0.0
-info_c2_1: 0.0
-info_c2_2: Your comparison goes here
-info_c3: Probably not, or we wouldn't ask the question.  (Replace with your description.)
+info_c1: 0.3219280948873623
+info_c2_1: 0.3219280948873623
+info_c2_2: The values are the same
+info_c3: If the label vector is one-hot, then you can simplify the Entropy calculation. Rather than summing p(x)*log_2*p(x) for each label, you can instead calculate p(x)*log_2*p(x) for only the "hot" label as the remaining labels will be zero.
 info_c4: 0.0
-info_c5: 0.0
-info_c6: 0.0
+info_c5: 1.7976931348623157e+308
+info_c6: 1.7976931348623157e+308
 
 ## Dynamic Programming
 
 # Part A
-dp_a1: 0.0
-dp_a2: Your reason goes here.
-dp_a3: limit (not graded)
+dp_a1: 1.6
+dp_a2: It is slow because we re-calculate ways(n-2) through ways(n-(n-1))
+dp_a3: 1.6
 
 # Part B
-dp_b1_A: 0.0
-dp_b1_B: 0.0
-dp_b1_C: 0.0
+dp_b1_A: 21 
+dp_b1_B: 34
+dp_b1_C: 35
 dp_b2: yes or no
 dp_b3: 0.0
 
