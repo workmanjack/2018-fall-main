@@ -47,8 +47,8 @@ dp_a3: 1.6
 dp_b1_A: 21 
 dp_b1_B: 34
 dp_b1_C: 35
-dp_b2: yes or no
-dp_b3: 0.0
+dp_b2: yes
+dp_b3: 2
 
 # Part C
 dp_c1: You only need to try each location of a single cut because profit_on_left_most is building a history of what your max potential profit would be for the left resulting part. This max potential profit already takes into account possible additional cuts to the left part. We could try cutting into three or more pieces but that would be duplicate work.
@@ -107,24 +107,24 @@ dp_e4: line goes here
 
 # Part B
 
-tf_b_W_shape: 0x0
-tf_b_b_shape: 0x0
+tf_b_W_shape: 10x1
+tf_b_b_shape: 1x1
 
 # Part C
 
-tf_c_W_shape: 0x0
-tf_c_b_shape: 0x0
-tf_c_x_shape: 0x0
-tf_c_z_shape: 0x0
+tf_c_W_shape: 10x1
+tf_c_b_shape: 1x1
+tf_c_x_shape: 20x10
+tf_c_z_shape: 10x1
 
 # Part D
 
-tf_d_y_hat_shape: 0x0
-tf_d_y_hat_value: [0, 0, 0]
-tf_d_elementwise_description: Your explanation.
+tf_d_y_hat_shape: 1x2
+tf_d_y_hat_value: [0.689, 0.426]
+tf_d_elementwise_description: "Element-wise" means that the function is applied to each element in the vector individually. This is similar to multiplying a matrix by a scalar.
 
 # Part E
-tf_e_W_shape: 0x0
-tf_e_b_shape: 0x0
-tf_e_x_shape: 0x0
-tf_e_z_shape: 0x0
+tf_e_W_shape: 10x20
+tf_e_b_shape: 1x75
+tf_e_x_shape: 1500x10
+tf_e_z_shape: 1500x20
