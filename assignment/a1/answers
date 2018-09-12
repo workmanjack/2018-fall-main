@@ -51,19 +51,11 @@ dp_b2: yes or no
 dp_b3: 0.0
 
 # Part C
-dp_c1: Your reason goes here.
-dp_c2: Your reason goes here.
+dp_c1: You only need to try each location of a single cut because profit_on_left_most is building a history of what your max potential profit would be for the left resulting part. This max potential profit already takes into account possible additional cuts to the left part. We could try cutting into three or more pieces but that would be duplicate work.
+dp_c2: Because we iterate from 0 to n, we effectively cover all available splits. In the end, profit_on_left_most is a full table containing the max potential profit (which considers any number and series of cuts) of any length of cut bar less than n. As we iterate with j, if we discover that a left_most cut gives us a higher profit, then we save the higher profit.
 dp_c3:
-- 0
 - 1
-- 2
-- 3
 - 4
-- 5
-- 6
-- 7
-- 8
-- 9
 # (keep the correct answers)
 
 # Part D
@@ -79,13 +71,28 @@ dp_c3:
 # - you
 
 dp_d_helloworldhowareyou:
-- (see above)
+- hello
+- world
+- how
+- are
+- you
 
 dp_d_downbythebay:
-- (see above)
+- down
+- by
+- the
+- bay
 
 dp_d_wikipediaisareallystrongresourceontheinternet:
-- (see above)
+- wikipedia
+- is
+- a
+- really
+- strong
+- resource
+- on
+- the
+- internet
 
 # Part E
 # (This section is optional, but if you want us to check your answers...)
