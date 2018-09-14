@@ -125,6 +125,6 @@ tf_d_elementwise_description: "Element-wise" means that the function is applied 
 
 # Part E
 tf_e_W_shape: 10x20
-tf_e_b_shape: 1x75
+tf_e_b_shape: 1x20
 tf_e_x_shape: 1500x10
 tf_e_z_shape: 1500x20

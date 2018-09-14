@@ -30,8 +30,6 @@ def affine_layer(hidden_dim, x):
     Hint: always initialize "b" as 0s.  It isn't a constant though!
           It needs to be a trainable variable!
     '''
-    pass
-
     # START YOUR CODE
 
     # Draw the sketch suggested in the hint above.
@@ -40,8 +38,11 @@ def affine_layer(hidden_dim, x):
 
     # Create trainable variables "W" and "b"
     # Hint: use tf.get_variable, tf.zeros_initializer, and tf.contrib.layers.xavier_initializer
+    W = tf.get_variable("W", shape=[x.shape[1], hidden_dim], initializer=tf.contrib.layers.xavier_initializer())
+    b = tf.get_variable("b", shape=[1, ], initializer=tf.zeros_initializer())
 
     # Return xW + b.
+    return tf.add(tf.matmul(x, W), b)
     # END YOUR CODE
 
 def fully_connected_layers(hidden_dims, x):
@@ -72,8 +73,13 @@ def fully_connected_layers(hidden_dims, x):
     Hint: if hidden_dims is empty, just return x.
     '''
 
-    # START YOUR CODE
-    pass
+    # START YOUR CODE 
+    if hidden_dims:
+        for i, this_hidden_d in enumerate(hidden_dims):
+            with tf.variable_scope('{0}/{1}'.format(i, str(this_hidden_d))):
+                x = tf.nn.relu(affine_layer(this_hidden_d, x))
+
+    return x
     # END YOUR CODE
 
 
@@ -111,7 +117,15 @@ def MakeLogits(x_ph, hidden_dims):
     Hint: Just return the logits.  Don't pass it through the final sigmoid (that's done in train_nn()).
     '''
     # YOUR CODE HERE
-    return None
+    #print('x_ph: ', x_ph)
+    #print('hidden_dims: ', hidden_dims)
+    my_tensor = fully_connected_layers(hidden_dims, x_ph)
+    #print('after fully_connected_layers: ', my_tensor)
+    my_tensor = affine_layer(1, my_tensor)
+    #print('after affine_layer: ', my_tensor)
+    my_tensor = tf.squeeze(my_tensor, axis=-1)
+    #print('after squeeze: ', my_tensor)
+    return my_tensor
     # END YOUR CODE HERE
 
 
@@ -130,7 +144,9 @@ def MakeLoss(logits, y_ph):
     Hint:  See tf.reduce_mean to go from a vector of per-item losses to the average batch-wide loss.
     '''
     # YOUR CODE HERE
-    return None
+    tf_cross_entropy = tf.nn.sigmoid_cross_entropy_with_logits(logits=logits, labels=y_ph)
+    tf_cross_entropy = tf.reduce_mean(tf_cross_entropy, axis=-1)
+    return tf_cross_entropy
     # END YOUR CODE HERE
 
 
@@ -186,9 +202,9 @@ def train_nn(X, y, X_test, hidden_dims, batch_size, num_epochs, learning_rate,
     print('Initial loss:', sess.run(loss, feed_dict={x_ph: X, y_ph: y}))
 
     if verbose:
-      for var in tf.trainable_variables():
-          print('Variable: ', var.name, var.get_shape())
-          print('dJ/dVar: ', sess.run(
+        for var in tf.trainable_variables():
+            print('Variable: ', var.name, var.get_shape())
+            print('dJ/dVar: ', sess.run(
                   tf.gradients(loss, var), feed_dict={x_ph: X, y_ph: y}))
 
     # Loop through your data num_epochs times...
@@ -209,9 +225,9 @@ def train_nn(X, y, X_test, hidden_dims, batch_size, num_epochs, learning_rate,
         if epoch_num % 300 == 0:
             print('Step: ', global_step_value, 'Loss:', loss_value)
             if verbose:
-              for var in tf.trainable_variables():
-                  print(var.name, sess.run(var))
-              print('')
+                for var in tf.trainable_variables():
+                    print(var.name, sess.run(var))
+                print('')
 
     # Return predictions.
     # There are two ways to write this...
