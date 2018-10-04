@@ -3,25 +3,25 @@
 ## Exploration ##
 #
 
-exploration_a_1_1_positive_fraction: 0.0
-exploration_a_1_2_balanced: False
-exploration_a_1_3_common_class_accuracy: 0.0
+exploration_a_1_1_positive_fraction: 0.52
+exploration_a_1_2_balanced: True
+exploration_a_1_3_common_class_accuracy: 0.52
 
 exploration_a_2_common_tokens:
-- word1
-- word2
-- word3
-- word4
-- word5
+- .
+- the
+- ,
+- a
+- and
 
-exploration_a_3_percentile_length: 0
-exploration_a_4_problematic: Your answer and why.
+exploration_a_3_percentile_length: 36
+exploration_a_4_problematic: No, it will hopefully give our model a finer understanding of the valence of the words in the dataset. This might help when we encounter sentences with both positive and negative words. In fact, when the part (b) example is run with all examples (not just root), the accuracy improves by 1%.
 
-exploration_b_2_most_negative: word
-exploration_b_2_most_negative_score: -0.0
-exploration_b_2_most_positive: word
-exploration_b_2_most_positive_score: 0.0
-exploration_b_2_make_sense: Your answer and why.
+exploration_b_2_most_negative: stupid
+exploration_b_2_most_negative_score: -3.17
+exploration_b_2_most_positive: powerful
+exploration_b_2_most_positive_score: 3.53
+exploration_b_2_make_sense: Yes, these features mostly make sense for this domain. There are a few questionable ones like "car" and "disguise" on the negative side and "portrait" on the positive side, however. The rest are reasonable.
 
 exploration_c_1_why_first_wrong: Your answer
 exploration_c_1_why_second_right: Your answer
