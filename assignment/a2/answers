@@ -24,18 +24,16 @@ exploration_b_2_most_positive_score: 3.53
 exploration_b_2_make_sense: Yes, these features mostly make sense for this domain. There are a few questionable ones like "car" and "disguise" on the negative side and "portrait" on the positive side, however. The rest are reasonable.
 
 exploration_c_1_why_first_wrong: Your answer
-exploration_c_1_why_second_right: Your answer
+exploration_c_1_why_second_right: The model interprets "incident" as a positive word with a weight of 1.31.That combined with "thoughtful" at 1.91 overpower the negative words. The most negative is the "1995" token at -0.24.
 
-exploration_c_2_pattern: Your answer
+exploration_c_2_pattern: the majority of the leaf nodes have a value of 2
 exploration_c_2_subphrase_to_whole:
 # Keep most common case
-- Whole is positive, Subphrase is positive
-- Whole is negative, Subphrase is negative
 - Whole is one polarity, Subphrase is opposite
 
-exploration_c_3_error_overall: 0.0
-exploration_c_3_error_interesting: 0.0
-exploration_c_3_error_increase: 0.0
+exploration_c_3_error_overall: 82.21
+exploration_c_3_error_interesting: 73.26
+exploration_c_3_error_increase: 50.31
 
 ## Neural Bag of Words ##
 #
