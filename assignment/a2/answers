@@ -38,23 +38,23 @@ exploration_c_3_error_increase: 50.31
 ## Neural Bag of Words ##
 #
 
-bow_d_1_w_embed: [0x0]
-bow_d_1_w_0: [0x0]
-bow_d_1_b_0: [0x0]
-bow_d_1_w_1: [0x0]
-bow_d_1_b_1: [0x0]
-bow_d_1_w_out: [0x0]
-bow_d_1_b_out: [0x0]
+bow_d_1_w_embed: [Vxd]
+bow_d_1_w_0: [dxh1]
+bow_d_1_b_0: [1xh1]
+bow_d_1_w_1: [h1xh2]
+bow_d_1_b_1: [1xh2]
+bow_d_1_w_out: [h2xk]
+bow_d_1_b_out: [1xk]
 
-bow_d_2_parameters_embedding: 0
-bow_d_2_parameters_hidden: 0
-bow_d_2_parameters_output: 0
+bow_d_2_parameters_embedding: V * d
+bow_d_2_parameters_hidden: d * h1
+bow_d_2_parameters_output: h2 * k
 
-bow_d_3_embed_dim: 0
-bow_d_3_hidden_dims: [0, 0, 0, 0]
+bow_d_3_embed_dim: 1
+bow_d_3_hidden_dims: [1, 1, 1, 1]
 
 bow_d_4_same_predict: False
-bow_d_4_same_predict_why: Your answer
+bow_d_4_same_predict_why:  No, because the ordering of the words differ. The model considers the full sentence and the subsequent subphrases. In the first example, 'foo bar' might yield a different weight than 'bar foo'.
 
 bow_f_2_interesting_accuracy: 0.0
 bow_f_2_whole_test_accuracy: 0.0

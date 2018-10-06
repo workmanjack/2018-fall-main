@@ -25,9 +25,11 @@ def embedding_layer(ids_, V, embed_dim, init_scale=0.001):
     # Approximately 2-3 lines of code.
     # Please name your embedding matrix 'W_embed', as in:
     #   W_embed_ = tf.get_variable("W_embed", ...)
-
-
-
+    W_embed_ = tf.get_variable(
+        name="W_embed",
+        shape=[V, embed_dim],
+        initializer=tf.random_uniform_initializer(-init_scale, init_scale))
+    xs_ = tf.nn.embedding_lookup(W_embed_, ids_)
     #### END(YOUR CODE) ####
     return xs_
 
@@ -56,9 +58,7 @@ def fully_connected_layers(h0_, hidden_dims, activation=tf.tanh,
         #### YOUR CODE HERE ####
         # Add dropout after each hidden layer (1-2 lines of code).
         if dropout_rate > 0:
-            h_ = h_  # replace with dropout applied to h_
-
-
+            h_ = tf.layers.dropout(h_, rate=0.5, training=is_training)
         #### END(YOUR CODE) ####
     return h_
 
@@ -91,12 +91,17 @@ def softmax_output_layer(h_, labels_, num_classes):
     """
     with tf.variable_scope("Logits"):
         #### YOUR CODE HERE ####
-        logits_ = None  # replace with (h W + b)
+        W_out_ = tf.get_variable(
+            name="W_out",
+            shape=[h_.shape[1], num_classes],
+            initializer=tf.random_normal_initializer())
+        b_out_ = tf.get_variable(
+            name="b_out",
+            shape=[num_classes, ],
+            initializer=tf.zeros_initializer())
+        logits_ = tf.add(tf.matmul(h_, W_out_), b_out_)
         # Please name your variables 'W_out' and 'b_out', as in:
         #   W_out_ = tf.get_variable("W_out", ...)
-
-
-
         #### END(YOUR CODE) ####
 
     # If no labels provided, don't try to compute loss.
@@ -105,9 +110,9 @@ def softmax_output_layer(h_, labels_, num_classes):
 
     with tf.name_scope("Softmax"):
         #### YOUR CODE HERE ####
-        loss_ = None  # replace with mean cross-entropy loss over batch
-
-
+        loss_ = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+            labels=labels_,
+            logits=logits_))
         #### END(YOUR CODE) ####
 
     return loss_, logits_
@@ -150,7 +155,7 @@ def BOW_encoder(ids_, ns_, V, embed_dim, hidden_dims, dropout_rate=0,
     #   xs_: [batch_size, max_len, embed_dim]
     with tf.variable_scope("Embedding_Layer"):
         #### YOUR CODE HERE ####
-        xs_ = None  # replace with a call to embedding_layer
+        xs_ = embedding_layer(ids_, V, embed_dim)
         #### END(YOUR CODE) ####
 
     #### YOUR CODE HERE ####
@@ -159,13 +164,13 @@ def BOW_encoder(ids_, ns_, V, embed_dim, hidden_dims, dropout_rate=0,
     mask_ = tf.expand_dims(tf.sequence_mask(ns_, xs_.shape[1],
                                             dtype=tf.float32), -1)
     # Multiply xs_ by the mask to zero-out pad indices.
-
+    xs_ = tf.multiply(xs_, mask_)
 
     # Sum embeddings: [batch_size, max_len, embed_dim] -> [batch_size, embed_dim]
-
+    h0_ = tf.reduce_sum(xs_, axis=1)
 
     # Build a stack of fully-connected layers
-
+    h_ = fully_connected_layers(h0_, hidden_dims, dropout_rate=dropout_rate, is_training=is_training)
 
     #### END(YOUR CODE) ####
     return h_, xs_
