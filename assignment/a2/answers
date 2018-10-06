@@ -8,11 +8,11 @@ exploration_a_1_2_balanced: True
 exploration_a_1_3_common_class_accuracy: 0.52
 
 exploration_a_2_common_tokens:
-- .
-- the
-- ,
-- a
-- and
+- "."
+- "the"
+- ","
+- "a"
+- "and"
 
 exploration_a_3_percentile_length: 36
 exploration_a_4_problematic: No, it will hopefully give our model a finer understanding of the valence of the words in the dataset. This might help when we encounter sentences with both positive and negative words. In fact, when the part (b) example is run with all examples (not just root), the accuracy improves by 1%.
