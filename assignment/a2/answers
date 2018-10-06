@@ -23,7 +23,7 @@ exploration_b_2_most_positive: powerful
 exploration_b_2_most_positive_score: 3.53
 exploration_b_2_make_sense: Yes, these features mostly make sense for this domain. There are a few questionable ones like "car" and "disguise" on the negative side and "portrait" on the positive side, however. The rest are reasonable.
 
-exploration_c_1_why_first_wrong: Your answer
+exploration_c_1_why_first_wrong: The first example demonstrates the shortcomings of a linear model in this space. The first two tokens have a very small polarity, but the third "performance" is very high at 1.10. The remaining words are not strong enough to bring the linear model back to below 0.
 exploration_c_1_why_second_right: The model interprets "incident" as a positive word with a weight of 1.31.That combined with "thoughtful" at 1.91 overpower the negative words. The most negative is the "1995" token at -0.24.
 
 exploration_c_2_pattern: the majority of the leaf nodes have a value of 2
@@ -31,9 +31,9 @@ exploration_c_2_subphrase_to_whole:
 # Keep most common case
 - Whole is one polarity, Subphrase is opposite
 
-exploration_c_3_error_overall: 82.21
-exploration_c_3_error_interesting: 73.26
-exploration_c_3_error_increase: 50.31
+exploration_c_3_error_overall: 0.8221
+exploration_c_3_error_interesting: 0.7326
+exploration_c_3_error_increase: 0.5031
 
 ## Neural Bag of Words ##
 #
@@ -44,7 +44,7 @@ bow_d_1_b_0: [1xh1]
 bow_d_1_w_1: [h1xh2]
 bow_d_1_b_1: [1xh2]
 bow_d_1_w_out: [h2xk]
-bow_d_1_b_out: [1xk]
+bow_d_1_b_out: [k]
 
 bow_d_2_parameters_embedding: V * d
 bow_d_2_parameters_hidden: d * h1
@@ -56,13 +56,13 @@ bow_d_3_hidden_dims: [1, 1, 1, 1]
 bow_d_4_same_predict: False
 bow_d_4_same_predict_why:  No, because the ordering of the words differ. The model considers the full sentence and the subsequent subphrases. In the first example, 'foo bar' might yield a different weight than 'bar foo'.
 
-bow_f_2_interesting_accuracy: 0.0
-bow_f_2_whole_test_accuracy: 0.0
+bow_f_2_interesting_accuracy: 0.7209302
+bow_f_2_whole_test_accuracy: 0.7759473
 bow_f_2_better_than_bayes: False
-bow_f_2_why: Your answer
+bow_f_2_why: In Part (c)2, I observed that whole sentences are usually the opposite polarity of the majority of its subphrases. Since Naive Bayes operates on counts to determine the polarity, the subphrases will have more weight than the whole sentence value when determining polarity. This is important with the interesting examples because they contain a mix of positive and negative words. 
 
 bow_f_3_more_training: False
-bow_f_4_overfitting: False
+bow_f_4_overfitting: True
 
 ## Convolutional Neural Networks ##
 #
@@ -73,30 +73,28 @@ bow_f_4_overfitting: False
 ## ML Fairness ##
 #
 
-ml_racist_1_sentiment:  0.0
+ml_racist_1_sentiment:  1.654896755339681
 
 ml_racist_2_bias_rank:
 # Most
-- Concept
-- GloVe
 - Word2Vec
+- GloVe
+- Concept
 # Least
 
 ml_racist_3_technique:
 # Keep 
-- Adversarial training
-- Bias Risk Reduction
 - Debiasing Word Embeddings
 
-ml_debias_1_evidence: Your answer
-ml_debias_2_table_1: Your answer
+ml_debias_1_evidence: The Racist AI analysis demonstrated that common pronouns like Italian and Mexican have vastly different sentiment scores. Based on this, it is not surprising that she-he words exhibit the same bias.
+ml_debias_2_table_1: The results of Table 1 show that the authors' debiasing techniques do not seriously negatively (or positively) impact the accuracy of popular models. This is important because it eliminates a key argument against using debiasing techniques - if the techniques provide large benefits with no accuracy-related drawbacks, then why not use them?
 ml_debias_3_stages: 
-- Your answer (stage 1)
-- Your answer (stage 2)
+- Identify gender subspace - identify the component of the vector that implies gender bias
+- Neutralize and Equalize or Soften - both involve reducing the amount of bias in the embeddings by either (a) eliminating it entirely which works but you lose other definitions like "to grandfather in a cell phone plan" or (b) repositioning the word vectors so that those fringe definitions are maintained but the vectors are more gender-neutral.
 
-ml_debias_4: Option
+ml_debias_4: Neutralize and Equalize
 
-ml_adversarial_1_parity: Your answer
-ml_adversarial_2_equality: Your answer
-ml_adversarial_3_j_lambda: Your answer
+ml_adversarial_1_parity: The parity gap measures the amount of bias present in the embeddings.
+ml_adversarial_2_equality: The parity gap measures the amount of bias present in the predictions.
+ml_adversarial_3_j_lambda: Traditional ML would, without Jλ, lead g(X) to predict Z, but we want the opposite. Introducing Jλ makes g  trained to predict Y but also to make it difficult for a() to predict Z.
 
