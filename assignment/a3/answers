@@ -22,8 +22,8 @@ a_5_which_should: Context (a)
 
 # Part C
 # c_1: include c1.png in this directory with your derivation.
-c_2_which_case: {a|b}
-c_2_why: Your answer
+c_2_which_case: b
+c_2_why: Case (b) because the first term in P_kn(c|b) relies on counts and thus will be very small for (b) therefore the alpha term will need to be very large to compensate to achieve normalization. Case (a) does not need alpha to compensate because its count value is already very large. 
 
 # Part E
 e_1_average_count_per_trigram_ignoring_zero_counts: 0

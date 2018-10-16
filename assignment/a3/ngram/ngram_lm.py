@@ -297,9 +297,12 @@ class KNTrigramLM(BaseLM):
         w_1, w_2 = None, None
         for word in tokens:
             #### YOUR CODE HERE ####
-            pass
-
-
+            self.counts[()][word] += 1.0
+            if w_1 is not None:
+                self.counts[(w_1,)][word] += 1.0
+                self.type_contexts[word].add(w_1)
+                if w_2 is not None:
+                    self.counts[(w_2, w_1)][word] += 1.0
 
             #### END(YOUR CODE) ####
             # Update context
@@ -313,12 +316,19 @@ class KNTrigramLM(BaseLM):
 
         #### YOUR CODE HERE ####
         # Count the total for each context.
-
-        # Count the number of nonzero entries for each context.
-
+        for context, word_counts in self.counts.items():
+            ctx_total = 0.0
+            for word, word_cnt in word_counts.items():
+                ctx_total += word_cnt
+            if context not in self.context_totals:
+                self.context_totals[context] = 0.0
+            self.context_totals[context] += ctx_total 
+            # Count the number of nonzero entries for each context.
+            self.context_nnz[context] = len(word_counts)
 
         # Compute type fertilities, and the sum z_tf.
-
+        for word, contexts in self.type_contexts.items():
+            self.type_fertility[word] = len(self.type_contexts[word])
 
         self.z_tf = float(sum(self.type_fertility.values()))
         #### END(YOUR CODE) ####
@@ -361,12 +371,18 @@ class KNTrigramLM(BaseLM):
         Returns:
           (float) P_kn(w | context)
         """
-        pass
         #### YOUR CODE HERE ####
         # Hint: self.counts.get(...) and self.context_totals.get(...) may be
         # useful here. See note in dict_notes.md about how this works.
-
-
+        # max(0, C_abc - delta) / C_ab + alpha_ab * P_kn(c|b)
+        # alpha = delta / C_ab
+        context_total = self.context_totals.get(context, None)
+        p_kn = pw
+        if context_total:
+            alpha = delta * self.context_nnz.get(context, 0) / context_total
+            C_abc = self.counts.get(context, {}).get(word, 0)
+            p_kn = max(0, C_abc - delta) / context_total + alpha * pw
+        return p_kn
 
         #### END(YOUR CODE) ####
 
