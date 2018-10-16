@@ -13,12 +13,12 @@
 #################################
 
 # Part A
-a_1_distribution: Your answer.
-a_1_depends_on_k: Your answer.
-a_2_good_estimate: {Good|Better}
-a_3_pqba: Your answer.  Use C, k, V.
-a_4_which_context: Your answer.
-a_5_which_should: Your answer.
+a_1_distribution: k / (k * |V|). The counts C_abc and C_ab for a new context will both be zero.
+a_1_depends_on_k: The answer depends on k because if k was not there, a new context's probability would always be zero.
+a_2_good_estimate: Better
+a_3_pqba: k / (Cab + k * |V|)
+a_4_which_context: Context (b)
+a_5_which_should: Context (a)
 
 # Part C
 # c_1: include c1.png in this directory with your derivation.

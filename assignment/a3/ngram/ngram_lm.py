@@ -139,7 +139,7 @@ class AddKTrigramLM(BaseLM):
         # Track unique words seen, for normalization
         # Use wordset.add(word) to add words
         wordset = set()
-
+        
         # Iterate through the word stream once
         # Compute trigram counts as in SimpleTrigramLM
         w_1, w_2 = None, None
@@ -153,8 +153,22 @@ class AddKTrigramLM(BaseLM):
 
         #### YOUR CODE HERE ####
         # Compute context counts
+        w_2 = tokens[0]
+        w_1 = tokens[1]
+        for word in tokens[2:]:
+            key = (w_2, w_1)
+            # compute total counts
+            if key not in self.context_totals:
+                self.context_totals[key] = 1
+            else:
+                self.context_totals[key] += 1
+            # prepare for next word; set next context
+            w_2 = w_1
+            w_1 = word
 
-
+        #print('context_totals = ', self.context_totals)
+        #print('counts = ', self.counts)
+            
         #### END(YOUR CODE) ####
         # Freeze defaultdicts so we don't accidentally modify later.
         self.counts.default_factory = None
@@ -193,8 +207,13 @@ class AddKTrigramLM(BaseLM):
         #### YOUR CODE HERE ####
         # Hint: self.counts.get(...) and self.context_totals.get(...) may be
         # useful here. See note in dict_notes.md about how this works.
-
-
+        counts_abc = self.counts.get(context, {}).get(word, 0)
+        counts_ab = self.context_totals.get(context, 0)
+        V = self.V
+        
+        # C_abc + k / C_ab + k * |V|
+        proba = (counts_abc + k) / (counts_ab + k * V)
+        return float(proba)
 
         #### END(YOUR CODE) ####
 
