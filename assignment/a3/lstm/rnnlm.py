@@ -187,20 +187,37 @@ class RNNLM(object):
         # See hints in instructions!
 
         # Construct embedding layer
-
-
-
+        with tf.name_scope("Embedding_Layer"):
+            self.input_w_ = tf.Variable(tf.random_uniform([V, M], -1.0, 1.0), name="input_w_")
+            # embedding_lookup gives shape (batch_size, N, M)
+            #x_ = tf.reshape(tf.nn.embedding_lookup(C_, ids_), [-1, N*M], name="x")
+        
         # Construct RNN/LSTM cell and recurrent layer.
-
-
-
-
-
+        with tf.name_scope("Recurrent_Layer"):
+            cell_ = MakeFancyRNNCell(self.H, self.dropout_keep_prob_)
+            # https://www.tensorflow.org/api_docs/python/tf/nn/dynamic_rnn
+            self.initial_h_ = cell_.zero_state(self.batch_size, dtype=tf.float32)
+            target_y_, self.final_h_ = tf.nn.dynamic_rnn(
+                cell=cell_,
+                inputs=self.input_w_,
+                sequence_length=self.ns_,
+                initial_state=self.initial_h_,
+                dtype=tf.float32)
+            
         # Softmax output layer, over vocabulary. Just compute logits_ here.
         # Hint: the matmul3d function will be useful here; it's a drop-in
         # replacement for tf.matmul that will handle the "time" dimension
         # properly.
-
+        with tf.name_scope("Output_Layer"):
+            self.logits_ = tf.placeholder(tf.int32, [self.batch_size, self.max_time_, self.V], name="logits_")
+            W2_ = tf.Variable(tf.random_normal([H,V]), name="W2")
+            W3_ = tf.Variable(tf.random_normal([N*M,V]), name="W3")
+            b3_ = tf.Variable(tf.zeros([V,], dtype=tf.float32), name="b3")
+            # Concat [h x] and [W2 W3]
+            hx_ = tf.concat([h_, x_], 1, name="hx")
+            W23_ = tf.concat([W2_, W3_], 0, name="W23")
+            #logits_ = tf.add(tf.matmul(hx_, W23_), b3_, name="logits")
+            logits_ = matmul3d(self.final_h_, self.target_y_)
 
 
         # Loss computation (true loss, for prediction)
