@@ -36,18 +36,18 @@ e_3_realistic: {addk|kn|unsmoothed}
 # Neural Language Model        #
 ################################
 
-a_1_cell_func: "h = ..."
-a_1_parameters: something with Vs and Hs
-a_2_embedding_parameters: ...
-a_2_output_parameters: ...
-a_3_single_target_word: ...
-a_3_full_distribution_of_all_target_words: ...
-a_4_with_sampled_softmax: Your answer
-a_4_with_hierarchical_softmax: Your answer
-a_5_slowest_part: {embed|recurrent|output}
+a_1_cell_func: "h = sigmoid(h^{i}h^{-1}+W_{x} x_{i}+b_{h})" where W_{x} is the associated weight vector for the hidden cell
+a_1_parameters: H*H + H*V
+a_2_embedding_parameters: V
+a_2_output_parameters: V
+a_3_single_target_word: O(2HV + 2H^2 + H)
+a_3_full_distribution_of_all_target_words: O((2HV + 2H^2 + H) * sequence_length)
+a_4_with_sampled_softmax: replace V with k
+a_4_with_hierarchical_softmax: Assuming hierachical softmax has the same worst case as binary search, replace V with log(V)
+a_5_slowest_part: recurrent
 
 c_1_explain_run_epoch: Your answer.
 
-d_1_number_agreement: Your answer
-d_2_semantic_agreement: Your answer
+d_1_number_agreement: The probabilities are very close, but "is" wins over "are" ("are" is grammatically correct). This might be because the RNN was trained on more examples with "is" following "and the girl" than "are". There might be less examples in the training set with nouns combined by "and".
+d_2_semantic_agreement: For the peanut example, the vegetable option is more plausible according to the model. This might be because there are more examples in the training data of folks commenting on their favorite vegetable. For the hungry example, the eat option is more plausible according to the model. This is correct. I would expect the 3-gram and 5-gram models to perform worse at these examples, as in both the key token ("peanuts" in the first and "hungry" in the second) are outside of the context window of 3- and 5-gram models.
 d_3_JJ_order: Your answer
