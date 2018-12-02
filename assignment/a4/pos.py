@@ -138,17 +138,26 @@ class HMM(object):
         alpha = dict()
         #### YOUR CODE HERE ####
         # Iterate through the sentence from left to right.
+        # α(i,t) = p(w_i | t) x \sigma_{t} p(t|t') x α(i−1,t')
         for i, w in enumerate(sentence):
-            pass
-
-
+            # to build a complete alpha dict, we iterate over the full tagset
+            for t in self.tagset:
+                sum_terms = self.emission(t, w)
+                log_sum = 0
+                if i == 0:
+                    # if i == 0: then it is initial state and no transition is needed
+                    sum_terms += self.initial(t) 
+                else:
+                    # compute logsumexp of all tags in tagset != t
+                    log_sum = logsumexp([alpha[(i-1, other_t)] + self.transition(other_t, t) for other_t in list(set(self.tagset) - set(t))])
+                alpha[(i, t)] = sum_terms + log_sum
 
         # Hint:  if you fail the unit tests, print out your alpha here
         #        and check it manually against the tests.
-        #  print("cell: ", i, t, "   ")
-        #  print("emission: ", self.emission(t,w), "   ")
-        #  print("sum terms: ", sum_terms, "   ")
-        #  print("alpha: ", alpha[(i,t)])
+        #print("cell: ", i, t, "   ")
+        #print("emission: ", self.emission(t,w), "   ")
+        #print("sum terms: ", sum_terms, "   ")
+        #print("alpha: ", alpha[(i,t)])
 
         #### END(YOUR CODE) ####
         return alpha
@@ -170,8 +179,16 @@ class HMM(object):
         """
         # YOUR CODE HERE
         beta = dict()
-
-
+        # β(i−1,t)= \sigma_t' p(w_i|t') x p(t'|t) x β(i,t')
+        for i, w in enumerate(reversed(sentence)):
+            rev_i = len(sentence) - i - 1
+            for t in self.tagset:
+                if i == 0:
+                    # last word; can't go backward so prob is 0
+                    beta[(rev_i, t)] = 0.0
+                else:
+                    beta[(rev_i, t)] = logsumexp([self.emission(other_t, prev_w) + self.transition(t, other_t) + beta[(rev_i + 1, other_t)] for other_t in self.tagset])
+            prev_w = w
         # END(YOUR CODE)
         return beta
 
