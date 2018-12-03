@@ -149,7 +149,7 @@ class HMM(object):
                     sum_terms += self.initial(t) 
                 else:
                     # compute logsumexp of all tags in tagset != t
-                    log_sum = logsumexp([alpha[(i-1, other_t)] + self.transition(other_t, t) for other_t in list(set(self.tagset) - set(t))])
+                    log_sum = logsumexp([alpha[(i-1, other_t)] + self.transition(other_t, t) for other_t in self.tagset])
                 alpha[(i, t)] = sum_terms + log_sum
 
         # Hint:  if you fail the unit tests, print out your alpha here
@@ -245,11 +245,26 @@ class HMM(object):
         bp = dict()
 
         #### YOUR CODE HERE ####
-
-
-
-
-
+        # δ(0,t) = p(t) × P(x_0|t) 
+        # δ(i,t) = p(x_i|t) x max_t'[δ(i−1,t') x p(t|t')]
+        for i, w in enumerate(sentence):
+            for t in self.tagset:
+                sum_terms = self.emission(t, w)
+                max_t = 0
+                if i == 0:
+                    # if i == 0: then it is initial state and no transition is needed
+                    sum_terms += self.initial(t)
+                    # start state; nothing to point back to
+                    bp[(i, t)] = None
+                else:
+                    # compute max of all tags in tagset != t
+                    max_args = [delta[(i-1, other_t)] + self.transition(other_t, t) for other_t in self.tagset]
+                    max_t = max(max_args)
+                    # get tag that has max value for bp
+                    max_i = max_args.index(max_t)
+                    bp[(i, t)] = list(self.tagset)[max_i]
+                # compute delta
+                delta[(i, t)] = sum_terms + max_t
 
         #### END(YOUR CODE) ####
 

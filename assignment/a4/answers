@@ -8,7 +8,7 @@
 # OR
 # label: answer2
 
-fb_viterbi_differ: How do they differ?
-can_be_zero: {Yes|No}
-can_be_zero_reason: Why do you think so?
+fb_viterbi_differ: ForwardBackward computes the sum of all probabilities for all tags given the previous tag and probability while Viterbi finds the maximum probability for all tags given the previous tag and probability.
+can_be_zero: No
+can_be_zero_reason: The computation begins by building a table of the joint probabilities that is effectively built from counts. Based on your input data, you might end up with some tags in the sequence that seem out of place but not 100% of them (you would need 100% for probability to be zero). 
 
